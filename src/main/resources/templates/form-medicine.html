@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" xmlns:th="http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+<form th:action="@{/prescriptions/save}" th:object="${prescription}" method="post">
+    <div>
+        <label>Ngày</label>
+        <input type="date" th:field="*{date}" required/>
+    </div>
+
+    <div>
+        <label>Bệnh nhân</label>
+        <select th:field="*{patient.id}" required>
+            <option value="">-- Chọn bệnh nhân --</option>
+            <option th:each="p : ${patients}"
+                    th:value="${p.id}"
+                    th:text="${p.name}">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label>Thuốc</label>
+        <select name="medicineId" required>
+            <option value="">-- Chọn thuốc --</option>
+            <option th:each="m : ${medicines}"
+                    th:value="${m.id}"
+                    th:text="${m.name}">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label>Số lượng</label>
+        <input type="number" name="quantity" min="1" required/>
+    </div>
+
+    <br/>
+
+    <button type="submit">Lưu</button>
+</form>
+
+</body>
+</html>
