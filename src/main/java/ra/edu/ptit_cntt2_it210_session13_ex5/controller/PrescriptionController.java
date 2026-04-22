@@ -51,11 +51,18 @@ public class PrescriptionController {
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("prescription") Prescription prescription,
                        BindingResult result,
-                       @RequestParam("medicineId") int medicineId,
-                       @RequestParam("quantity") int quantity,
+                       @RequestParam(value = "medicineId", required = false) Integer medicineId,
+                       @RequestParam(value = "quantity", required = false) Integer quantity,
                        Model model) {
 
-        if (result.hasErrors() || quantity <= 0) {
+        if (medicineId == null) {
+            model.addAttribute("errorMedicine", "Vui lòng chọn một loại thuốc!");
+        }
+        if (quantity == null || quantity <= 0) {
+            model.addAttribute("errorQuantity", "Số lượng thuốc phải lớn hơn 0!");
+        }
+
+        if (result.hasErrors() || medicineId == null || quantity == null || quantity <= 0) {
             model.addAttribute("patients", patientService.getAll());
             model.addAttribute("medicines", medicineService.getAll());
             return "form-medicine";

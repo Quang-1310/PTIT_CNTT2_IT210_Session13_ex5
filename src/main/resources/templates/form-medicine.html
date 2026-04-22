@@ -2,52 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
-<body>
+<body class="container">
+
+<h2 class="mb-4">Tạo đơn thuốc mới</h2>
 
 <form th:action="@{/prescriptions/save}" th:object="${prescription}" method="post">
-    <div>
+
+    <div class="form-group">
         <label>Ngày</label>
-        <input type="date" th:field="*{date}" required/>
+        <input type="date" th:field="*{date}" class="form-control" />
+        <small class="text-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></small>
     </div>
 
-    <div>
+    <div class="form-group">
         <label>Bệnh nhân</label>
-        <select th:field="*{patient.id}" required>
+        <select th:field="*{patient.id}" class="form-control">
             <option value="">-- Chọn bệnh nhân --</option>
             <option th:each="p : ${patients}"
                     th:value="${p.id}"
                     th:text="${p.name}">
             </option>
         </select>
+        <small class="text-danger" th:if="${#fields.hasErrors('patient.id')}" th:errors="*{patient.id}"></small>
     </div>
 
-    <div>
+    <hr/>
+    <h5>Chi tiết thuốc</h5>
+
+    <div class="form-group">
         <label>Thuốc</label>
-        <select name="medicineId" required>
+        <select name="medicineId" class="form-control">
             <option value="">-- Chọn thuốc --</option>
             <option th:each="m : ${medicines}"
                     th:value="${m.id}"
                     th:text="${m.name}">
             </option>
+            <small class="text-danger" th:if="${errorMedicine}" th:text="${errorMedicine}"></small>
         </select>
     </div>
 
-    <div>
+    <div class="form-group">
         <label>Số lượng</label>
-        <input type="number" name="quantity" min="1" required/>
+        <input type="number" name="quantity" class="form-control" />
+        <small class="text-danger" th:if="${errorQuantity}" th:text="${errorQuantity}"></small>
     </div>
 
     <br/>
 
-    <button type="submit">Lưu</button>
+    <button type="submit" class="btn btn-primary">Lưu đơn thuốc</button>
+    <a href="/prescriptions" class="btn btn-secondary">Quay lại</a>
 </form>
 
 </body>

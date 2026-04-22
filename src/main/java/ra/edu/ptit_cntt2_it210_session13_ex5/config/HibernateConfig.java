@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
+
 @Configuration
 public class HibernateConfig {
     @Autowired
